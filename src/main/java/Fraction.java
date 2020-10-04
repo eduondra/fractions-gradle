@@ -24,7 +24,7 @@ public class Fraction implements IFraction {
     public IFraction plus(IFraction other) {
         int jmenovtelSPOL = getDenominator() * other.getDenominator();
         int citatelSPOL = (getNumerator() * other.getDenominator()) + (other.getNumerator() * getDenominator());
-        return new Fraction(citatelSPOL, jmenovtelSPOL);
+        return createNormalised(citatelSPOL, jmenovtelSPOL);
 
     }
 
@@ -32,7 +32,7 @@ public class Fraction implements IFraction {
     public IFraction minus(IFraction other) {
         int jmenovtelSPOL = getDenominator() * other.getDenominator();
         int citatelSPOL = (getNumerator() * other.getDenominator()) - (other.getNumerator() * getDenominator());
-        return new Fraction(citatelSPOL, jmenovtelSPOL);
+        return createNormalised(citatelSPOL, jmenovtelSPOL);
 
     }
 
@@ -40,7 +40,7 @@ public class Fraction implements IFraction {
     public IFraction times(IFraction other) {
         int jmenovtelSPOL = getDenominator() * other.getDenominator();
         int citatelSPOL = getNumerator() * other.getDenominator();
-        return new Fraction(citatelSPOL, jmenovtelSPOL);
+        return createNormalised(citatelSPOL, jmenovtelSPOL);
 
 
     }
@@ -49,12 +49,20 @@ public class Fraction implements IFraction {
     public IFraction dividedBy(IFraction other) {
         int jmenovtelSPOL = getDenominator() * other.getNumerator();
         int citatelSPOL = getNumerator() * other.getDenominator();
-        return new Fraction(citatelSPOL, jmenovtelSPOL);
+        return createNormalised(citatelSPOL, jmenovtelSPOL);
 
     }
 
     public static Fraction createNormalised(Integer numerator, Integer denominator) {
-        //nechapu
+        int gcd = 1;
+        for (int i = 1; i <= numerator && i <= denominator; i++) {
+            if (numerator % i == 0 && denominator % i == 0) {
+                gcd = i;
+            }
+            numerator = numerator / gcd;
+            denominator = denominator / gcd;
+        }
+        return new Fraction(numerator, denominator);
     }
 
     @Override
